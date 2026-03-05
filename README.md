@@ -4,19 +4,36 @@
 
 ## Overview
 
-The **Telugu Prompt-Style Recovery task** focuses on automatically identifying the communicative style expressed in a Telugu transcript excerpt. Given an input text, systems must classify it into one of **nine stylistic categories**:
+The **Telugu Prompt-Style Recovery task** focuses on automatically identifying the communicative style expressed in a Telugu transcript excerpt. Given an input text, systems must classify it into one of **nine stylistic categories**.
 
-*   Formal
-*   Informal
-*   Optimistic
-*   Pessimistic
-*   Humorous
-*   Serious
-*   Inspiring
-*   Authoritative
-*   Persuasive
+### Label Definitions and Annotation Cues
+Each of the nine style categories is characterised by distinct linguistic and pragmatic features:
 
-Each category represents a distinct tonal or pragmatic intention of the speaker or writer.
+*   **Formal**: Polite, structured language; professional register; complete sentences; minimal slang.
+*   **Informal**: Conversational and colloquial; frequent use of contractions, slang, and emojis; second-person direct address; short phrases.
+*   **Optimistic**: Positive outlook and encouragement; future-success oriented language.
+*   **Pessimistic**: Negative or bleak outlook; cautionary and doubtful tone.
+*   **Humorous**: Jokes, playful exaggeration, comedic timing, irony, and light-hearted metaphors.
+*   **Serious**: Sober and factual tone; warnings or grave subject-matter; deliberate absence of humour.
+*   **Inspiring**: Motivational language; calls-to-action; uplifting metaphors; "you can do it" framing.
+*   **Authoritative**: Directive or commanding voice; expert-like claims; high certainty; imperative guidance.
+*   **Persuasive**: Language intended to convince or convert, including sales-like appeals, lobbying rhetoric, and appeals to personal benefit.
+
+### Data Statistics
+The test partition used in evaluation comprises **301 instances** distributed across the nine categories. The distribution reflects moderate class imbalance, with *Serious* being the most frequent category (15.6%) and *Pessimistic* the least frequent (7.3%).
+
+| Style | Count | % |
+| :--- | :---: | :---: |
+| **Authoritative** | 30 | 10.0 |
+| **Formal** | 38 | 12.6 |
+| **Humorous** | 31 | 10.3 |
+| **Informal** | 35 | 11.6 |
+| **Inspiring** | 37 | 12.3 |
+| **Optimistic** | 33 | 11.0 |
+| **Persuasive** | 28 | 9.3 |
+| **Pessimistic** | 22 | 7.3 |
+| **Serious** | 47 | 15.6 |
+| **Total** | **301** | **100.0** |
 
 ### Goals & Impact
 The goal is to encourage the development of models that can reliably capture subtleties of Telugu stylistics, including register variation, emotional tone, motivational framing, rhetorical patterns, and humour.
