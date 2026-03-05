@@ -1,0 +1,32 @@
+# Discrepancies: Codebase vs. Paper ("Style-Aware Cross-Encoder")
+
+This document lists remaining discrepancies between the codebase (`paper_code/`) and the current draft of the paper (`Telugu_Prompt_style_recovery (1).pdf`).
+
+## 1. Critical Methodology Mismatch (The "Cross-Encoder" Definition)
+*   **In Paper (Section 5.1):** The paper describes the Cross-Encoder input as a **Text-Hypothesis pair**:
+    > `[CLS] T [SEP] Hj [SEP]`
+    > (e.g., "This text is in an Inspirational style.")
+    This frames the task as a Natural Language Inference (NLI) problem.
+
+*   **In Code (`train_transfer_detector.py`):** The code implements a **Style Transfer Detector** where the input is an **Original-Changed Text pair**:
+    > `[CLS] Original Text [SEP] Changed Text [SEP]`
+    This frames the task as classifying the *stylistic change* that occurred between two versions of a sentence.
+    
+    *Correction Required:* The paper's "Cross-Encoder" section must be rewritten to describe the input as a pair of (Original, Changed) texts, not a Text/Hypothesis pair. The "Cross-Encoder" terminology is still valid (it encodes two texts), but the *content* is different.
+
+## 2. Data Augmentation (Multi-Crop)
+*   **In Code (`dataset.py`):** The training pipeline uses a **Multi-Crop Augmentation** strategy for the "Style Transfer" mode. It randomly crops the original and changed texts to different windows to augment the data.
+*   **In Paper:** This augmentation strategy is not mentioned.
+
+## 3. Soft Label Implementation Details
+*   **In Code:** The soft labels are generated dynamically using a `StyleGraph` with a temperature parameter (`temperature=1.0` in `dataset.py`).
+*   **In Paper:** The paper mentions soft targets (Section 5.2) but describes a specific alpha-mixing formula (`1-8α` for gold, `α` for compatible). The code implementation uses a more general softmax-over-similarity-scores approach.
+
+## 4. Model Architecture Nuances
+*   **In Code (`train_transfer_detector.py`):** The classifier initializes with a simple linear head on top of the [CLS] token (`nn.Linear(hidden_size, num_labels)`).
+*   **In Paper:** Section 5.1 mentions `logit sj from a linear head on [CLS]`, which aligns, but the paper implies this is for *scoring hypotheses* rather than a multi-class classification head over 9 styles directly. The code uses a standard multi-class classification head.
+
+## Summary of Action Items for Paper Update:
+1.  **Redefine Input:** Change Section 5.1 to describe `[CLS] Original [SEP] Changed` inputs.
+2.  **Clarify Task:** Explicitly state the goal is to classify the relationship/change between two texts, not just the style of one text.
+3.  **Mention Augmentation:** Briefly mention the multi-crop data augmentation used during training.
